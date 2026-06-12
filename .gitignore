@@ -4,6 +4,3 @@ __pycache__/
 *.pyo
 .venv/
 venv/
-processed_calls.json
-workflow.log
-*.log
