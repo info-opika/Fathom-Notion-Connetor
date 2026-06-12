@@ -1,0 +1,29 @@
+# Optional Render Blueprint — or create the web service manually in the Dashboard.
+services:
+  - type: web
+    name: fathom-notion
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app --bind 0.0.0.0:$PORT
+    healthCheckPath: /health
+    autoDeployTrigger: commit
+    envVars:
+      - key: CRON_SECRET
+        sync: false
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: FATHOM_API_KEY
+        sync: false
+      - key: NOTION_TOKEN
+        sync: false
+      - key: NOTION_DATABASE_ID
+        sync: false
+      - key: GMAIL_ADDRESS
+        sync: false
+      - key: GMAIL_APP_PASSWORD
+        sync: false
+      - key: TEAM_EMAILS
+        sync: false
+      - key: FATHOM_LOOKBACK_HOURS
+        value: "24"
