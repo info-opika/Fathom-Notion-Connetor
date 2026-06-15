@@ -19,11 +19,15 @@ services:
         sync: false
       - key: NOTION_DATABASE_ID
         sync: false
+      - key: RESEND_API_KEY
+        sync: false
+      - key: EMAIL_FROM
+        sync: false
+      - key: TEAM_EMAILS
+        sync: false
       - key: GMAIL_ADDRESS
         sync: false
       - key: GMAIL_APP_PASSWORD
-        sync: false
-      - key: TEAM_EMAILS
         sync: false
       - key: FATHOM_LOOKBACK_HOURS
         value: "24"

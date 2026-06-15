@@ -58,8 +58,9 @@ class FathomNotionWorkflow:
 
         if not email_configured():
             logger.warning(
-                "Gmail not fully configured — email digest will be skipped. "
-                "Set GMAIL_ADDRESS, GMAIL_APP_PASSWORD, and TEAM_EMAILS to enable."
+                "Email not fully configured — digest will be skipped. "
+                "Set RESEND_API_KEY + EMAIL_FROM + TEAM_EMAILS (Render), or "
+                "GMAIL_ADDRESS + GMAIL_APP_PASSWORD + TEAM_EMAILS (local)."
             )
 
     def _load_processed_calls(self) -> set:
@@ -262,7 +263,7 @@ If no due date is mentioned, use {default_due}. If none found, return [].""",
                 self.send_daily_digest(processed)
             else:
                 logger.info(
-                    "Processed %s call(s) to Notion. Email skipped (Gmail not configured).",
+                    "Processed %s call(s) to Notion. Email skipped (not configured).",
                     len(processed),
                 )
             logger.info("Successfully processed %s call(s)", len(processed))

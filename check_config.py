@@ -75,16 +75,23 @@ def main():
             check("Notion database access", False, str(e).split("\n")[0])
             all_ok = False
 
-    # Gmail (optional but recommended)
-    gmail_addr = os.environ.get("GMAIL_ADDRESS", "")
-    gmail_pass = os.environ.get("GMAIL_APP_PASSWORD", "")
+    # Email digest (optional but recommended)
+    from email_client import _email_from, _gmail_configured, _resend_configured
+
     team = os.environ.get("TEAM_EMAILS", "")
-    email_ok = bool(gmail_addr and gmail_pass and team)
-    check(
-        "Gmail digest (GMAIL_ADDRESS + GMAIL_APP_PASSWORD + TEAM_EMAILS)",
-        email_ok,
-        "configured" if email_ok else "optional — digest will be skipped",
-    )
+    resend_ok = _resend_configured() and bool(team)
+    gmail_ok = _gmail_configured() and bool(team)
+    email_ok = resend_ok or gmail_ok
+    if resend_ok:
+        check("Email digest (Resend)", True, _email_from())
+    elif gmail_ok:
+        check("Email digest (Gmail SMTP)", True, os.environ.get("GMAIL_ADDRESS", ""))
+    else:
+        check(
+            "Email digest (Resend or Gmail + TEAM_EMAILS)",
+            False,
+            "optional — digest will be skipped",
+        )
 
     # Claude API quick test
     if anthropic_key:
